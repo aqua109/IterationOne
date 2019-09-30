@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 using Photon.Pun;
 using Microsoft.MixedReality.Toolkit.Input;
 
-public class PhotonViewTest : MonoBehaviour, IMixedRealityFocusHandler
+public class PhotonViewTest : MonoBehaviour, IPunInstantiateMagicCallback, IMixedRealityFocusHandler
 {
     public void OnFocusEnter(FocusEventData eventData)
     {
@@ -21,5 +21,12 @@ public class PhotonViewTest : MonoBehaviour, IMixedRealityFocusHandler
     public void cube()
     {
         PhotonNetwork.InstantiateSceneObject("Cube", new Vector3(0, 6, -16.5f), Quaternion.identity, 0, null);
+    }
+
+    public void OnPhotonInstantiate(PhotonMessageInfo info)
+    {
+        var parent = GameObject.Find("Cube");
+
+        this.transform.SetParent(parent.transform, true);
     }
 }
