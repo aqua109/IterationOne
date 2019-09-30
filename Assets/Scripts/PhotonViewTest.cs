@@ -33,14 +33,14 @@ public class PhotonViewTest : MonoBehaviour, IPunInstantiateMagicCallback, IMixe
     {
     }
 
-    public void cube()
-    {
-        PhotonNetwork.InstantiateSceneObject("Cube", new Vector3(0, 6, -16.5f), Quaternion.identity, 0, null);
-    }
+    //public void cube()
+    //{
+    //    PhotonNetwork.InstantiateSceneObject("Cube", new Vector3(0, 6, -16.5f), Quaternion.identity, 0, null);
+    //}
 
     public void OnPhotonInstantiate(PhotonMessageInfo info)
     {
-        var parent = GameObject.Find("Cube");
+        var parent = GameObject.Find("Root");
 
         this.transform.SetParent(parent.transform, true);
     }
