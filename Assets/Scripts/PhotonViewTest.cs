@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 using Photon.Pun;
 using Microsoft.MixedReality.Toolkit.Input;
 
-public class PhotonViewTest : MonoBehaviour, IPunInstantiateMagicCallback, IMixedRealityFocusHandler
+public class PhotonViewTest : MonoBehaviour, IPunInstantiateMagicCallback, IMixedRealityFocusHandler, IMixedRealityTouchHandler
 {
     public void OnFocusEnter(FocusEventData eventData)
     {
@@ -15,6 +15,21 @@ public class PhotonViewTest : MonoBehaviour, IPunInstantiateMagicCallback, IMixe
     }
 
     public void OnFocusExit(FocusEventData eventData)
+    {
+    }
+
+    public void OnTouchStarted(HandTrackingInputEventData eventData)
+    {
+        var photonView = this.GetComponent<PhotonView>();
+
+        photonView?.RequestOwnership();
+    }
+
+    public void OnTouchCompleted(HandTrackingInputEventData eventData)
+    {
+    }
+
+    public void OnTouchUpdated(HandTrackingInputEventData eventData)
     {
     }
 
