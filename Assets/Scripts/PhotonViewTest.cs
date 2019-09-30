@@ -1,15 +1,23 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using Pathfinding.Serialization.JsonFx;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.Networking;
-using TMPro;
 using Photon.Pun;
-using Photon.Realtime;
+using Microsoft.MixedReality.Toolkit.Input;
 
-public class PhotonViewTest : MonoBehaviour
+public class PhotonViewTest : MonoBehaviour, IMixedRealityFocusHandler
 {
+    public void OnFocusEnter(FocusEventData eventData)
+    {
+        // ask the photonview for permission
+        var photonView = this.GetComponent<PhotonView>();
+
+        photonView?.RequestOwnership();
+    }
+
+    public void OnFocusExit(FocusEventData eventData)
+    {
+    }
+
     public void cube()
     {
         PhotonNetwork.InstantiateSceneObject("Cube", new Vector3(0, 6, -16.5f), Quaternion.identity, 0, null);
