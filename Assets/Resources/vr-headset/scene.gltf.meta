@@ -1,0 +1,36 @@
+fileFormatVersion: 2
+guid: f4332e6126ac63b48832f1c5300652f1
+ScriptedImporter:
+  fileIDToRecycleName:
+    100000: main/glTF Scene scene
+    100002: main/glTF Scene scene/RootNode (gltf orientation matrix)
+    100004: main/glTF Scene scene/RootNode (gltf orientation matrix)/RootNode (model
+      correction matrix)
+    100006: main/glTF Scene scene/RootNode (gltf orientation matrix)/RootNode (model
+      correction matrix)/Collada visual scene group
+    100008: main/glTF Scene scene/RootNode (gltf orientation matrix)/RootNode (model
+      correction matrix)/Collada visual scene group/Body
+    100010: main/glTF Scene scene/RootNode (gltf orientation matrix)/RootNode (model
+      correction matrix)/Collada visual scene group/Body/defaultMaterial
+    400000: main/glTF Scene scene/Transform
+    400002: main/glTF Scene scene/RootNode (gltf orientation matrix)/Transform
+    400004: main/glTF Scene scene/RootNode (gltf orientation matrix)/RootNode (model
+      correction matrix)/Transform
+    400006: main/glTF Scene scene/RootNode (gltf orientation matrix)/RootNode (model
+      correction matrix)/Collada visual scene group/Transform
+    400008: main/glTF Scene scene/RootNode (gltf orientation matrix)/RootNode (model
+      correction matrix)/Collada visual scene group/Body/Transform
+    400010: main/glTF Scene scene/RootNode (gltf orientation matrix)/RootNode (model
+      correction matrix)/Collada visual scene group/Body/defaultMaterial/Transform
+    2300000: main/glTF Scene scene/RootNode (gltf orientation matrix)/RootNode (model
+      correction matrix)/Collada visual scene group/Body/defaultMaterial/MeshRenderer
+    3300000: main/glTF Scene scene/RootNode (gltf orientation matrix)/RootNode (model
+      correction matrix)/Collada visual scene group/Body/defaultMaterial/MeshFilter
+    4300000: defaultMaterial
+    11400000: glTF data
+    100100000: main
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 8f83316e73954ae4fa56b79705605b45, type: 3}
