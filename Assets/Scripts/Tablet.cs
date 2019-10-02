@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 using TMPro;
+using Photon.Pun;
 
 public class Tablet : MonoBehaviour
 {
@@ -108,7 +109,8 @@ public class Tablet : MonoBehaviour
 
     public void createuser()
     {
-        var newUser = (GameObject)Instantiate(user, new Vector3(x_origin, y_origin, z_origin), Quaternion.identity);
+        //var newUser = (GameObject)Instantiate(user, new Vector3(x_origin, y_origin, z_origin), Quaternion.identity);
+        var newUser = PhotonNetwork.Instantiate("Tablet", new Vector3(x_origin, y_origin, z_origin), Quaternion.identity);
         users.Add(newUser);
         setText(newUser, dataItems[i % 49]);
         StartCoroutine(setAvatar(dataItems[i % 49].avatar, newUser));
