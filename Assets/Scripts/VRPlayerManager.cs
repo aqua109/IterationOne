@@ -88,9 +88,8 @@ namespace Com.MyCompany.MyGame
             }
             if (photonView.IsMine)
             {
-                
                 Head.GetComponent<MeshRenderer>().enabled=false;
-                Head.GetComponent<Collider>().enabled = false;
+                //Head.GetComponent<Collider>().enabled = false;
             }
 
             
