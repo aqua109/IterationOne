@@ -8,9 +8,6 @@ using Newtonsoft.Json;
 
 public class SyncedCard : MonoBehaviour, IPunInstantiateMagicCallback, IMixedRealityFocusHandler, IMixedRealityTouchHandler
 {
-    public string key;
-    public string token;
-    public string board_id;
     public static int c;
     private static double x_orig = -2.6875;
     private static double y_orig = 7.125;
@@ -41,7 +38,7 @@ public class SyncedCard : MonoBehaviour, IPunInstantiateMagicCallback, IMixedRea
             var card = PhotonNetwork.Instantiate("Card", new Vector3((float) x, (float) y, (float) z), Quaternion.identity, 0);
 
             var photonView = card.GetComponent<PhotonView>();
-            photonView.RPC("UpdateCardText", RpcTarget.AllBuffered, photonView.ViewID);
+            photonView.RPC("UpdateCardText", RpcTarget.AllBuffered, photonView.ViewID, i);
 
             //Debug.Log(list);
             //Debug.Log(connector.cards[i % length].idList);
@@ -57,7 +54,7 @@ public class SyncedCard : MonoBehaviour, IPunInstantiateMagicCallback, IMixedRea
                 y = y_orig;
                 x = x + x_off;
             }
-            c++;
+            //c++;
         }
 
     }
@@ -78,7 +75,7 @@ public class SyncedCard : MonoBehaviour, IPunInstantiateMagicCallback, IMixedRea
     }
 
     [PunRPC]
-    void UpdateCardText(int id)
+    void UpdateCardText(int id, int i)
     {
         GameObject trelloLoader = GameObject.Find("TrelloLoader");
         TrelloConnector connector = (TrelloConnector)trelloLoader.GetComponent(typeof(TrelloConnector));
@@ -86,7 +83,7 @@ public class SyncedCard : MonoBehaviour, IPunInstantiateMagicCallback, IMixedRea
         int length = connector.cards.Length;
 
         //Debug.Log("*************");
-        ////Debug.Log(connector.cards[i % length].name);
+        Debug.Log(connector.cards[i % length].name);
         ////Debug.Log(connector.cards[i % length].idList);
         ////Debug.Log(connector.cards[i % length].idMembers[0].ToString());
         ////Debug.Log(connector.cards[i % length].labels[0].color);
@@ -101,16 +98,17 @@ public class SyncedCard : MonoBehaviour, IPunInstantiateMagicCallback, IMixedRea
         var card = PhotonView.Find(id).gameObject;
         Renderer renderer = card.transform.Find("Label").GetComponent<Renderer>();
         Color newCol;
-        if (ColorUtility.TryParseHtmlString(connector.cards[c % length].labels[0].color, out newCol))
+        if (ColorUtility.TryParseHtmlString(connector.cards[i % length].labels[0].color, out newCol))
         {
             renderer.materials[0].color = newCol;
         }
-        card.transform.Find("Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[c % length].name);
+        card.transform.Find("Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[i % length].name);
         //card.transform.Find("Canvas/ListID").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[c % length].idList);
         //card.transform.Find("Canvas/Members").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[c % length].idMembers[0].ToString());
         //card.transform.Find("Canvas/Labels").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[c % length].labels[0].color);
         //card.transform.Find("Canvas/DueDate").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[c % length].due.ToString());
         //card.transform.Find("Canvas/Description").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[c % length].desc);
+        //c++;
     }
 
     public void OnFocusEnter(FocusEventData eventData)
