@@ -11,7 +11,7 @@ public class SyncedCube : MonoBehaviour, IPunInstantiateMagicCallback, IMixedRea
     {
         var cube = PhotonNetwork.Instantiate("Cube", new Vector3(0, 6, -16.5f), Quaternion.identity, 0);
         var photonView = cube.GetComponent<PhotonView>();
-        photonView.RPC("UpdateText", RpcTarget.All, photonView.ViewID);
+        photonView.RPC("UpdateText", RpcTarget.AllBuffered, photonView.ViewID);
     }
 
     [PunRPC]
