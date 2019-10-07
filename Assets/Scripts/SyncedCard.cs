@@ -5,6 +5,7 @@ using Photon.Pun;
 using Microsoft.MixedReality.Toolkit.Input;
 using TMPro;
 using Newtonsoft.Json;
+using System;
 
 public class SyncedCard : MonoBehaviour, IPunInstantiateMagicCallback, IMixedRealityFocusHandler, IMixedRealityTouchHandler
 {
@@ -103,11 +104,19 @@ public class SyncedCard : MonoBehaviour, IPunInstantiateMagicCallback, IMixedRea
             renderer.materials[0].color = newCol;
         }
         card.transform.Find("Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[i % length].name);
-        //card.transform.Find("Canvas/ListID").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[c % length].idList);
-        //card.transform.Find("Canvas/Members").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[c % length].idMembers[0].ToString());
-        //card.transform.Find("Canvas/Labels").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[c % length].labels[0].color);
-        //card.transform.Find("Canvas/DueDate").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[c % length].due.ToString());
-        //card.transform.Find("Canvas/Description").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[c % length].desc);
+        card.transform.Find("Expanded/Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[i % length].name);
+        card.transform.Find("Expanded/Canvas/ListID").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[i % length].idList);
+        //card.transform.Find("Expanded/Canvas/Members").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[c % length].idMembers[0].ToString());
+        try
+        {
+            card.transform.Find("Expanded/Canvas/DueDate").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[i % length].due.ToString());
+            card.transform.Find("Expanded/Canvas/Desc").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[i % length].desc);
+        }
+        catch (NullReferenceException e)
+        {
+            card.transform.Find("Expanded/Canvas/DueDate").GetComponentInChildren<TextMeshProUGUI>().SetText("No Due Date");
+            card.transform.Find("Expanded/Canvas/Desc").GetComponentInChildren<TextMeshProUGUI>().SetText("No Description");
+        }
         //c++;
     }
 
