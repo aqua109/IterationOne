@@ -18,8 +18,14 @@ public class SyncedCard : MonoBehaviour, IPunInstantiateMagicCallback, IMixedRea
     private static double y_off = -1;
 
 
-    public void Test()
+    public void Reset()
     {
+
+        foreach (Transform clone in GameObject.Find("Root").transform)
+        {
+            Destroy(clone.gameObject);
+        }
+
         GameObject trelloLoader = GameObject.Find("TrelloLoader");
         TrelloConnector connector = (TrelloConnector)trelloLoader.GetComponent(typeof(TrelloConnector));
 
@@ -30,49 +36,39 @@ public class SyncedCard : MonoBehaviour, IPunInstantiateMagicCallback, IMixedRea
         double y = y_orig;
         double z = z_orig;
 
-        Debug.Log(x_orig);
-        Debug.Log(x);
-        Debug.Log(x_off);
 
         for (int i = 0; i < length; i++)
-        {
-            var card = PhotonNetwork.Instantiate("Card", new Vector3((float) x, (float) y, (float) z), Quaternion.identity, 0);
-
-            var photonView = card.GetComponent<PhotonView>();
-            photonView.RPC("UpdateCardText", RpcTarget.AllBuffered, photonView.ViewID, i);
-
-            //Debug.Log(list);
-            //Debug.Log(connector.cards[i % length].idList);
-            //Debug.Log(list == connector.cards[i % length].idList);
-
-            if (list == connector.cards[i % length].idList)
+        { 
+            if (connector.cards[i % length].idList != "5d93e513f545620b3fa5a35b")
             {
-                y = y + y_off;
+                if (i == 0)
+                {
+                    var card = PhotonNetwork.Instantiate("Card", new Vector3((float)x, (float)y, (float)z), Quaternion.identity, 0);
+                    var photonView = card.GetComponent<PhotonView>();
+                    photonView.RPC("UpdateCardText", RpcTarget.AllBuffered, photonView.ViewID, i);
+                }
+
+                else
+                {
+                    if (list == connector.cards[i % length].idList)
+                    {
+                        y = y + y_off;
+                    }
+                    else
+                    {
+                        list = connector.cards[i % length].idList;
+                        y = y_orig;
+                        x = x + x_off;
+                    }
+                    var card = PhotonNetwork.Instantiate("Card", new Vector3((float)x, (float)y, (float)z), Quaternion.identity, 0);
+                    var photonView = card.GetComponent<PhotonView>();
+                    photonView.RPC("UpdateCardText", RpcTarget.AllBuffered, photonView.ViewID, i);
+
+                }
             }
-            else
-            {
-                list = connector.cards[i % length].idList;
-                y = y_orig;
-                x = x + x_off;
-            }
-            //c++;
+
         }
 
-    }
-
-
-    public void InstantiateCard()
-    {
-        //var card = PhotonNetwork.Instantiate("Card", new Vector3(x_orig, y_orig, z_orig), Quaternion.identity, 0);
-        //var photonView = card.GetComponent<PhotonView>();
-        //photonView.RPC("UpdateCardText", RpcTarget.AllBuffered, photonView.ViewID);
-        //Debug.Log(c);
-        Test();
-        //c++;
-        //GameObject trelloLoader = GameObject.Find("TrelloLoader");
-        //TrelloConnector connector = (TrelloConnector)trelloLoader.GetComponent(typeof(TrelloConnector));
-        //connector.GetComponent<TrelloConnector>().Test();
-        //Debug.Log(connector.cards[0].name);
     }
 
     [PunRPC]
@@ -83,41 +79,75 @@ public class SyncedCard : MonoBehaviour, IPunInstantiateMagicCallback, IMixedRea
 
         int length = connector.cards.Length;
 
-        //Debug.Log("*************");
         Debug.Log(connector.cards[i % length].name);
-        ////Debug.Log(connector.cards[i % length].idList);
-        ////Debug.Log(connector.cards[i % length].idMembers[0].ToString());
-        ////Debug.Log(connector.cards[i % length].labels[0].color);
-        ////Debug.Log(connector.cards[i % length].due.ToString());
-        ////Debug.Log(connector.cards[i % length].desc);
-        ////Debug.Log(connector.cards.Length);
-
-        //Debug.Log(c);
-        //Debug.Log("*************");
 
 
         var card = PhotonView.Find(id).gameObject;
-        Renderer renderer = card.transform.Find("Label").GetComponent<Renderer>();
+        Renderer label = card.transform.Find("Label").GetComponent<Renderer>();
+        Renderer expLabel = card.transform.Find("ExpandedLabel").GetComponent<Renderer>();
         Color newCol;
         if (ColorUtility.TryParseHtmlString(connector.cards[i % length].labels[0].color, out newCol))
         {
-            renderer.materials[0].color = newCol;
+            label.materials[0].color = newCol;
+            expLabel.materials[0].color = newCol;
         }
         card.transform.Find("Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[i % length].name);
         card.transform.Find("Expanded/Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[i % length].name);
-        card.transform.Find("Expanded/Canvas/ListID").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[i % length].idList);
+        //card.transform.Find("Expanded/Canvas/ListID").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[i % length].idList);
         //card.transform.Find("Expanded/Canvas/Members").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[c % length].idMembers[0].ToString());
         try
         {
             card.transform.Find("Expanded/Canvas/DueDate").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[i % length].due.ToString());
-            card.transform.Find("Expanded/Canvas/Desc").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[i % length].desc);
         }
         catch (NullReferenceException e)
         {
             card.transform.Find("Expanded/Canvas/DueDate").GetComponentInChildren<TextMeshProUGUI>().SetText("No Due Date");
+        }
+        try
+        {
+            card.transform.Find("Expanded/Canvas/Desc").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.cards[i % length].desc);
+        }
+        catch (NullReferenceException e)
+        {
             card.transform.Find("Expanded/Canvas/Desc").GetComponentInChildren<TextMeshProUGUI>().SetText("No Description");
         }
+
+        if (connector.cards[i % length].idList == "5d54bbb6da4a043bbc645700")
+        {
+            card.transform.Find("Expanded/Canvas/ListID").GetComponentInChildren<TextMeshProUGUI>().SetText("List: ToDo");
+        }
+        if (connector.cards[i % length].idList == "5d54bbb8f51b346c3d9303b7")
+        {
+            card.transform.Find("Expanded/Canvas/ListID").GetComponentInChildren<TextMeshProUGUI>().SetText("List: Doing");
+        }
+        if (connector.cards[i % length].idList == "5d54bbbef54a7c158e8b7f11")
+        {
+            card.transform.Find("Expanded/Canvas/ListID").GetComponentInChildren<TextMeshProUGUI>().SetText("List: Done");
+        }
+
+        //if (card.transform.position[1] < 3.4f)
+        //{
+        //    card.SetActive(false);
+        //}
+
+        //Debug.Log(card.transform.position[i]);
+        //Debug.Log(card.transform.position[i].GetType());
         //c++;
+    }
+
+
+    //Coming Soon :)
+    public void Scroll()
+    {
+        foreach (Transform clone in GameObject.Find("Root").transform)
+        {
+            Vector3 p = clone.transform.position;
+            p.y += (float) (6 * (double)GameObject.Find("ThumbRoot").transform.position[1] - 36.375);
+            clone.transform.position = p;
+            //clone.transform.Translate(Vector3.up * (float)(6 * (double)GameObject.Find("ThumbRoot").transform.position[1] - 36.375));
+            //clone.transform.Translate(Vector3.up * GameObject.Find("ThumbRoot").transform.position[1], Space.World);
+        }
+        Debug.Log((double) GameObject.Find("ThumbRoot").transform.position[1]);
     }
 
     public void OnFocusEnter(FocusEventData eventData)
