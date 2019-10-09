@@ -125,10 +125,10 @@ public class SyncedCard : MonoBehaviour, IPunInstantiateMagicCallback, IMixedRea
             card.transform.Find("Expanded/Canvas/ListID").GetComponentInChildren<TextMeshProUGUI>().SetText("List: Done");
         }
 
-        //if (card.transform.position[1] < 3.4f)
-        //{
-        //    card.SetActive(false);
-        //}
+        if (card.transform.position[1] < 3.5f || card.transform.position[1] > 7.5f)
+        {
+            card.SetActive(false);
+        }
 
         //Debug.Log(card.transform.position[i]);
         //Debug.Log(card.transform.position[i].GetType());
@@ -148,6 +148,40 @@ public class SyncedCard : MonoBehaviour, IPunInstantiateMagicCallback, IMixedRea
             //clone.transform.Translate(Vector3.up * GameObject.Find("ThumbRoot").transform.position[1], Space.World);
         }
         Debug.Log((double) GameObject.Find("ThumbRoot").transform.position[1]);
+    }
+
+    public void ScrollUp()
+    {
+        foreach (Transform clone in GameObject.Find("Root").transform)
+        {
+            Vector3 p = clone.transform.position;
+            p.y++;
+            clone.transform.position = p;
+            DisplayCard(clone);
+        }
+    }
+
+    public void ScrollDown()
+    {
+        foreach (Transform clone in GameObject.Find("Root").transform)
+        {
+            Vector3 p = clone.transform.position;
+            p.y--;
+            clone.transform.position = p;
+            DisplayCard(clone);
+        }
+    }
+
+    public void DisplayCard(Transform clone)
+    {
+        if (clone.transform.position[1] < 3.5f || clone.transform.position[1] > 7.5f)
+        {
+            clone.gameObject.SetActive(false);
+        }
+        else
+        {
+            clone.gameObject.SetActive(true);
+        }
     }
 
     public void OnFocusEnter(FocusEventData eventData)
