@@ -80,16 +80,23 @@ namespace Com.MyCompany.MyGame
             */
 
         }
+
         void Start()
         {
-            if (PlayerName != null)
-            {
-                PlayerName.text = photonView.Owner.NickName;
-            }
+            Debug.Log("******");
+            Debug.Log(PlayerName);
+            Debug.Log("******");
+
+            PlayerName.text = "New User";
+
+            //if (PlayerName != null)
+            //{
+            //    //PlayerName.text = photonView.Owner.NickName;
+            //    PlayerName.text = "New User";
+            //}
             if (photonView.IsMine)
             {
-                Head.GetComponent<MeshRenderer>().enabled=false;
-                //Head.GetComponent<Collider>().enabled = false;
+                //Head.GetComponent<MeshRenderer>().enabled=false;
             }
 
             
@@ -130,8 +137,6 @@ namespace Com.MyCompany.MyGame
 
 
 
-        
-
         void OnTriggerEnter(Collider other)
         {
             if (!photonView.IsMine)
@@ -165,6 +170,16 @@ namespace Com.MyCompany.MyGame
             */
         } 
 
+        public void Nickname()
+        {
+            Debug.Log("******");
+            Debug.Log(PlayerName.text);
+            Debug.Log("******");
+            PlayerName.text = "123";
+            Debug.Log("******");
+            Debug.Log(PlayerName.text);
+            Debug.Log("******");
+        }
 
         void Update()
         {
@@ -216,8 +231,9 @@ namespace Com.MyCompany.MyGame
             Head.transform.rotation = playerCameraToFollow.transform.rotation;
 
             TextPositioner.transform.position = playerCameraToFollow.transform.position;
-            
-            
+            TextPositioner.transform.rotation = playerCameraToFollow.transform.rotation;
+
+
         }
 
 #if !UNITY_5_4_OR_NEWER
