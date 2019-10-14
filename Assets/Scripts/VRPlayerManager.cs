@@ -14,16 +14,19 @@ namespace Com.MyCompany.MyGame
         [Tooltip("Local Player Instance. Use this to know if the local player is represented in the Scene.")]
         public static GameObject LocalPlayerInstance;
         public GameObject Head;
-        public TextMeshPro PlayerName;
+        public TextMeshProUGUI PlayerName;
         public GameObject TextPositioner;
         public GameObject playerCameraToFollow;
         private object[] instantiationData;
+        //private static string nickname = "default script name";
+        GameObject nickname;
+        public static PhotonView pView;
 
         /*
         [Tooltip("The current Health of our player")]
         public float Health = 1f;
         */
-        
+
 
 
         // holds reference to Player UI prefab to allow for instantiation
@@ -83,11 +86,19 @@ namespace Com.MyCompany.MyGame
 
         void Start()
         {
-            Debug.Log("******");
-            Debug.Log(PlayerName);
-            Debug.Log("******");
 
-            PlayerName.text = "New User";
+            //nickname = PhotonNetwork.Instantiate("Nickname", new Vector3(0, 6, 0), Quaternion.identity, 0);
+            pView = this.GetComponent<PhotonView>();
+            pView.RPC("UpdateNicknameText", RpcTarget.AllBuffered, pView.ViewID, "called from start()");
+            //PlayerName.text = nickname;
+            //Debug.Log("******");
+            //Debug.Log(PlayerName.text);
+            //Debug.Log("******");
+
+            //PlayerName.text = nickname;
+
+
+            //Debug.Log(PlayerName.text);
 
             //if (PlayerName != null)
             //{
@@ -135,9 +146,14 @@ namespace Com.MyCompany.MyGame
 #endif
         }
 
+        [PunRPC]
+        void UpdateNicknameText(int id, string nick)
+        {
+            var name = PhotonView.Find(id).gameObject;
+            name.transform.Find("Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().SetText(nick);
+        }
 
-
-        void OnTriggerEnter(Collider other)
+            void OnTriggerEnter(Collider other)
         {
             if (!photonView.IsMine)
             {
@@ -168,17 +184,30 @@ namespace Com.MyCompany.MyGame
 
             Health -= 0.1f * Time.deltaTime;
             */
-        } 
+        }
 
         public void Nickname()
         {
-            Debug.Log("******");
-            Debug.Log(PlayerName.text);
-            Debug.Log("******");
-            PlayerName.text = "123";
-            Debug.Log("******");
-            Debug.Log(PlayerName.text);
-            Debug.Log("******");
+            //    //Debug.Log("******");
+            //    //Debug.Log(PlayerName.text);
+            //    //Debug.Log("******");
+            //    //PlayerName.text = "123";
+            //    //Debug.Log("******");
+            //    //Debug.Log(PlayerName.text);
+            //    //Debug.Log("******");
+            //    //nickname = "Nickname called";
+            //    //Debug.Log("******");
+            //    //Debug.Log(PlayerName.text);
+            //    //Debug.Log("******");
+            //    //var cube = this.gameObject;
+            //    //Debug.Log(cube.transform.Find("Canvas").GetComponentInChildren<TextMeshProUGUI>().text);
+            //    //cube.transform.Find("Canvas").GetComponentInChildren<TextMeshProUGUI>().SetText("TextMeshProUGUI");
+            //    //Debug.Log(cube.transform.Find("Canvas").GetComponentInChildren<TextMeshProUGUI>().text);
+            //    nickname = "12345566";
+            //    Start();
+            //var photonView = this.GetComponent<PhotonView>();
+            pView.RPC("UpdateNicknameText", RpcTarget.AllBuffered, pView.ViewID, "nIcKnAmE()");
+
         }
 
         void Update()
@@ -230,8 +259,15 @@ namespace Com.MyCompany.MyGame
             Head.transform.position = playerCameraToFollow.transform.position;
             Head.transform.rotation = playerCameraToFollow.transform.rotation;
 
-            TextPositioner.transform.position = playerCameraToFollow.transform.position;
+            //TextPositioner.transform.position = playerCameraToFollow.transform.position;
+            //TextPositioner.transform.position += TextPositioner.transform.position + new Vector3(0, .5f, 0);
+            //TextPositioner.transform.rotation = playerCameraToFollow.transform.rotation;
+
+            TextPositioner.transform.position = Head.transform.position + new Vector3(0, .5f, 0);
             TextPositioner.transform.rotation = playerCameraToFollow.transform.rotation;
+
+            //nickname.transform.position = playerCameraToFollow.transform.position;
+            //nickname.transform.rotation = playerCameraToFollow.transform.rotation;
 
 
         }

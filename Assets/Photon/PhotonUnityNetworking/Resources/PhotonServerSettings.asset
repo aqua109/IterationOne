@@ -36,5 +36,6 @@ MonoBehaviour:
   - RespawnSpaceship
   - UpdateText
   - UpdateCardText
+  - UpdateNicknameText
   DisableAutoOpenWizard: 1
   ShowSettings: 1

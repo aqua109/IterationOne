@@ -1938,7 +1938,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: 5}
+  m_SizeDelta: {x: 3, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &729746534
 MonoBehaviour:
@@ -2297,25 +2297,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
---- !u!1 &1109758768 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2530215525649931290, guid: 278d60b909cc38542ab8bad07ab21379,
-    type: 3}
-  m_PrefabInstance: {fileID: 1144794740}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1109758770
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1109758768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0da017521b8a6c44dafddf4b463a1d4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerName: {fileID: 729746534}
 --- !u!43 &1135507040
 Mesh:
   m_ObjectHideFlags: 0
@@ -2618,11 +2599,22 @@ PrefabInstance:
         type: 3}
       propertyPath: TouchBegin.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2972276234065495971, guid: 9b51aa2743425a7428b7828a62c22466,
+        type: 3}
     - target: {fileID: 4586360448139083219, guid: 278d60b909cc38542ab8bad07ab21379,
         type: 3}
       propertyPath: TouchBegin.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OpenSystemKeyboard
+      value: SetPlayerName
+      objectReference: {fileID: 0}
+    - target: {fileID: 4586360448139083219, guid: 278d60b909cc38542ab8bad07ab21379,
+        type: 3}
+      propertyPath: TouchBegin.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4586360448139083219, guid: 278d60b909cc38542ab8bad07ab21379,
+        type: 3}
+      propertyPath: TouchBegin.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: testing button name
       objectReference: {fileID: 0}
     - target: {fileID: 4434722070047467755, guid: 278d60b909cc38542ab8bad07ab21379,
         type: 3}
@@ -5914,6 +5906,12 @@ PrefabInstance:
       propertyPath: cameraToFollow
       value: 
       objectReference: {fileID: 534669902}
+    - target: {fileID: 6838498149520707006, guid: d8227df4194b54849aaeb6ba5aeca780,
+        type: 3}
+      propertyPath: playerPrefab
+      value: 
+      objectReference: {fileID: 8945379502083842525, guid: ad76ccd73dc72bf47b828e5c1809d652,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8227df4194b54849aaeb6ba5aeca780, type: 3}
 --- !u!43 &1638408504
@@ -6314,7 +6312,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1668
+  m_Name: pb_Mesh-1630
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
