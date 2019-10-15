@@ -1,27 +1,9 @@
-﻿using Photon.Pun;
-using Photon.Pun.Demo.PunBasics;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
-public class Nickname : MonoBehaviour
+
+public class Nickname
 {
-    
-    public TextMeshPro PlayerName;
-    // Start is called before the first frame update
-    void Start()
-    {
-        PlayerName.text = "Start()";
-    }
-
-    public void updateText()
-    {
-        PlayerName.text = "Updated";
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public int id { get; set; }
+    public string nickname { get; set; }
+    public string colour { get; set; }
 }

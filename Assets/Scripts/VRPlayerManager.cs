@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Newtonsoft.Json;
 
 namespace Com.MyCompany.MyGame
 {
@@ -22,30 +23,6 @@ namespace Com.MyCompany.MyGame
         GameObject nickname;
         public static PhotonView pView;
 
-        /*
-        [Tooltip("The current Health of our player")]
-        public float Health = 1f;
-        */
-
-
-
-        // holds reference to Player UI prefab to allow for instantiation
-        /*
-        [Tooltip("The Player's UI GameObject Prefab")]
-        [SerializeField]
-        private GameObject PlayerUiPrefab;
-        */
-        #endregion
-
-        #region Private Fields
-        /*
-        [Tooltip("The Beams GameObject to control")]
-        [SerializeField]
-        private GameObject beams;
-        */
-
-        // True, when user is firing
-        //bool IsFiring;
         #endregion
 
 
@@ -70,18 +47,6 @@ namespace Com.MyCompany.MyGame
 
             DontDestroyOnLoad(this.gameObject);
 
-            /*
-            if (beams == null)
-            {
-                Debug.LogError("<Color=Red><a>MIssing</a></Color> Beams Reference.", this);
-            }
-            else
-            {
-                beams.SetActive(false);
-            }
-
-            */
-
         }
 
         void Start()
@@ -89,57 +54,13 @@ namespace Com.MyCompany.MyGame
 
             //nickname = PhotonNetwork.Instantiate("Nickname", new Vector3(0, 6, 0), Quaternion.identity, 0);
             pView = this.GetComponent<PhotonView>();
-            pView.RPC("UpdateNicknameText", RpcTarget.AllBuffered, pView.ViewID, "called from start()");
-            //PlayerName.text = nickname;
-            //Debug.Log("******");
-            //Debug.Log(PlayerName.text);
-            //Debug.Log("******");
+            pView.RPC("UpdateNicknameText", RpcTarget.AllBuffered, pView.ViewID, "Default Nickname");
 
-            //PlayerName.text = nickname;
-
-
-            //Debug.Log(PlayerName.text);
-
-            //if (PlayerName != null)
-            //{
-            //    //PlayerName.text = photonView.Owner.NickName;
-            //    PlayerName.text = "New User";
-            //}
             if (photonView.IsMine)
             {
-                //Head.GetComponent<MeshRenderer>().enabled=false;
+                Head.GetComponent<MeshRenderer>().enabled = false;
+                PlayerName.GetComponent<TextMeshProUGUI>().enabled = false;
             }
-
-            
-            // for UI instantiation
-            /*
-            if (PlayerUiPrefab != null)
-            {
-                GameObject _uiGo = Instantiate(PlayerUiPrefab);
-                _uiGo.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
-            }
-            else
-            {
-                Debug.LogWarning("<Color=Red><a>Missing</a></Color> PlayerUiPrefab reference on player Prefab.",this);
-            }
-            */
-
-            // end of UI instantiation
-            /*
-            CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
-
-            if (_cameraWork != null)
-            {
-                if (photonView.IsMine)
-                {
-                    _cameraWork.OnStartFollowing();
-                }
-            }
-            else
-            {
-                Debug.LogError("<Color=Red><a>Missing</a></Color> CameraWork component on playerPrefab", this);
-            }
-            */
 
 #if UNITY_5_4_OR_NEWER
             UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
@@ -150,7 +71,7 @@ namespace Com.MyCompany.MyGame
         void UpdateNicknameText(int id, string nick)
         {
             var name = PhotonView.Find(id).gameObject;
-            name.transform.Find("Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().SetText(nick);
+            name.transform.Find("Headset/Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().SetText(nick);
         }
 
             void OnTriggerEnter(Collider other)
@@ -159,86 +80,21 @@ namespace Com.MyCompany.MyGame
             {
                 return;
             }
-            /*
-            if (!other.name.Contains("Beam"))
-            {
-                return;
-            }
-            Health -= 0.1f;
-            */
         }
 
 
         void OnTriggerStay(Collider other)
         {
-            /*
-            if (!photonView.IsMine)
-            {
-                return;
-            }
-
-            if (!other.name.Contains("Beam"))
-            {
-                return;
-            }
-
-            Health -= 0.1f * Time.deltaTime;
-            */
         }
 
-        public void Nickname()
+        public void Nickname(TextMeshProUGUI nickname)
         {
-            //    //Debug.Log("******");
-            //    //Debug.Log(PlayerName.text);
-            //    //Debug.Log("******");
-            //    //PlayerName.text = "123";
-            //    //Debug.Log("******");
-            //    //Debug.Log(PlayerName.text);
-            //    //Debug.Log("******");
-            //    //nickname = "Nickname called";
-            //    //Debug.Log("******");
-            //    //Debug.Log(PlayerName.text);
-            //    //Debug.Log("******");
-            //    //var cube = this.gameObject;
-            //    //Debug.Log(cube.transform.Find("Canvas").GetComponentInChildren<TextMeshProUGUI>().text);
-            //    //cube.transform.Find("Canvas").GetComponentInChildren<TextMeshProUGUI>().SetText("TextMeshProUGUI");
-            //    //Debug.Log(cube.transform.Find("Canvas").GetComponentInChildren<TextMeshProUGUI>().text);
-            //    nickname = "12345566";
-            //    Start();
-            //var photonView = this.GetComponent<PhotonView>();
-            pView.RPC("UpdateNicknameText", RpcTarget.AllBuffered, pView.ViewID, "nIcKnAmE()");
+            pView.RPC("UpdateNicknameText", RpcTarget.AllBuffered, pView.ViewID, nickname.text);
 
         }
 
         void Update()
         {
-            // only process if we are the local player
-            /*
-             * if (photonView.IsMine)
-            {
-                if (Health <= 0f)
-                {
-                    GameManagerScript.Instance.LeaveRoom();
-                }
-                
-            }
-            
-            if (photonView.IsMine)
-            {
-                ProcessInputs();
-            }
-
-            // trigger beams acrive state
-            if (beams != null && IsFiring != beams.activeSelf)
-            {
-                beams.SetActive(IsFiring);
-            }
-
-
-
-
-            */
-
             if (!photonView.IsMine)
             {
                 //TextPositioner.transform.LookAt(playerCameraToFollow.transform);
@@ -281,19 +137,6 @@ namespace Com.MyCompany.MyGame
 
         void CalledOnLevelWasLoaded(int level)
         {
-            /*
-            if (!Physics.Raycast(transform.position, -Vector3.up, 5f))
-            {
-                transform.position = new Vector3(0f, 5f, 0f);
-            }
-            */
-            // need to re instantiate Player Ui prefab for when the player is leaving and joing anew level/room
-
-            /*
-             * GameObject _uiGo = Instantiate(this.PlayerUiPrefab);
-            _uiGo.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
-            */
-
                        
         }
 
@@ -308,26 +151,6 @@ namespace Com.MyCompany.MyGame
         #endregion
 
         #region Custom
-
-        /*
-        void ProcessInputs()
-        {
-            if (Input.GetButtonDown("Fire1"))
-            {
-                if (!IsFiring)
-                {
-                    IsFiring = true;
-                }
-            }
-            if (Input.GetButtonUp("Fire1"))
-            {
-                if (IsFiring)
-                {
-                    IsFiring = false;
-                }
-            }
-        }
-        */
 
 
 
