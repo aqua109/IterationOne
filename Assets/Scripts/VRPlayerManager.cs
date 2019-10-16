@@ -89,6 +89,7 @@ namespace Com.MyCompany.MyGame
 
         public void Nickname(TextMeshProUGUI nickname)
         {
+            Debug.Log(pView.ViewID);
             pView.RPC("UpdateNicknameText", RpcTarget.AllBuffered, pView.ViewID, nickname.text);
 
         }

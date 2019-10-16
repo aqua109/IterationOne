@@ -21,9 +21,9 @@ public class NicknameConnector : MonoBehaviour
         }
         nicknames = JsonConvert.DeserializeObject<Nickname[]>(jsonResponse);
 
-        for (int i = 0; i < nicknames.Length; i++)
-        {
-            Debug.Log(nicknames[i].nickname);
-        }
+        //for (int i = 0; i < nicknames.Length; i++)
+        //{
+        //    Debug.Log(nicknames[i].nickname);
+        //}
     }
 }

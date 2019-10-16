@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using TMPro;
+using Microsoft.MixedReality.Toolkit.Input;
 using UnityEngine;
 
 
-public class SetNickname : MonoBehaviour
+public class SetNickname : MonoBehaviour, IMixedRealityTouchHandler
 {
     private static double x_orig = -1.5;
     private static double y_orig = 3;
@@ -20,7 +21,6 @@ public class SetNickname : MonoBehaviour
 
     public void loadNicknames()
     {
-        Debug.Log("Test");
         GameObject nicknameLoader = GameObject.Find("NicknameLoader");
         NicknameConnector connector = (NicknameConnector)nicknameLoader.GetComponent(typeof(NicknameConnector));
 
@@ -74,5 +74,27 @@ public class SetNickname : MonoBehaviour
             sphere.materials[0].color = newCol;
         }
         nickname.transform.Find("Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.nicknames[i % length].nickname);
+    }
+
+    public void NicknameOwner()
+    {
+        var sphere = this.GetComponent<PhotonView>();
+        Debug.Log(sphere.Owner);
+    }
+
+
+    public void OnTouchStarted(HandTrackingInputEventData eventData)
+    {
+        var photonView = this.GetComponent<PhotonView>();
+
+        photonView?.RequestOwnership();
+    }
+
+    public void OnTouchCompleted(HandTrackingInputEventData eventData)
+    {
+    }
+
+    public void OnTouchUpdated(HandTrackingInputEventData eventData)
+    {
     }
 }
