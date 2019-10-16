@@ -9,7 +9,8 @@ using Microsoft.MixedReality.Toolkit.Input;
 using UnityEngine;
 
 
-public class SetNickname : MonoBehaviour, IMixedRealityTouchHandler
+//public class SetNickname : MonoBehaviour, IMixedRealityFocusHandler
+public class SetNickname : MonoBehaviour
 {
     private static double x_orig = -1.5;
     private static double y_orig = 3;
@@ -76,25 +77,49 @@ public class SetNickname : MonoBehaviour, IMixedRealityTouchHandler
         nickname.transform.Find("Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.nicknames[i % length].nickname);
     }
 
-    public void NicknameOwner()
-    {
-        var sphere = this.GetComponent<PhotonView>();
-        Debug.Log(sphere.Owner);
-    }
-
-
-    public void OnTouchStarted(HandTrackingInputEventData eventData)
+    public void Nickname()
     {
         var photonView = this.GetComponent<PhotonView>();
 
         photonView?.RequestOwnership();
+        Debug.Log(this.transform.Find("Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().text);
+
+        var playerID = photonView.ViewID.ToString()[0] + "001";
+
+        Debug.Log(playerID);
+
+        var player = PhotonView.Find(int.Parse(playerID)).gameObject;
+        //Debug.Log(player);
+
+
+        GameObject nicknameLoader = GameObject.Find("NicknameLoader");
+        VRPlayerManager playerManager = (VRPlayerManager)player.GetComponent(typeof(VRPlayerManager));
+        playerManager.Nickname(this.transform.Find("Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().text);
     }
 
-    public void OnTouchCompleted(HandTrackingInputEventData eventData)
-    {
-    }
 
-    public void OnTouchUpdated(HandTrackingInputEventData eventData)
-    {
-    }
+    //public void OnFocusEnter(FocusEventData eventData)
+    //{
+    //    // ask the photonview for permission
+    //    var photonView = this.GetComponent<PhotonView>();
+
+    //    photonView?.RequestOwnership();
+    //    Debug.Log(this.transform.Find("Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().text);
+
+    //    var playerID = photonView.ViewID.ToString()[0] + "001";
+
+    //    Debug.Log(playerID);
+
+    //    var player = PhotonView.Find(int.Parse(playerID)).gameObject;
+    //    //Debug.Log(player);
+
+
+    //    GameObject nicknameLoader = GameObject.Find("NicknameLoader");
+    //    VRPlayerManager playerManager = (VRPlayerManager)player.GetComponent(typeof(VRPlayerManager));
+    //    playerManager.Nickname(this.transform.Find("Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().text);
+    //}
+
+    //public void OnFocusExit(FocusEventData eventData)
+    //{
+    //}
 }
