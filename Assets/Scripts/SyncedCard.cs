@@ -23,7 +23,7 @@ public class SyncedCard : MonoBehaviour, IPunInstantiateMagicCallback, IMixedRea
 
         foreach (Transform clone in GameObject.Find("Root").transform)
         {
-            Destroy(clone.gameObject);
+            PhotonNetwork.Destroy(clone.gameObject);
         }
 
         GameObject trelloLoader = GameObject.Find("TrelloLoader");
@@ -38,7 +38,7 @@ public class SyncedCard : MonoBehaviour, IPunInstantiateMagicCallback, IMixedRea
 
 
         for (int i = 0; i < length; i++)
-        { 
+        {
             if (connector.cards[i % length].idList != "5d93e513f545620b3fa5a35b")
             {
                 if (i == 0)
