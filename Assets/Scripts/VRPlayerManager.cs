@@ -87,10 +87,9 @@ public class VRPlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     {
     }
 
-    public void Nickname(string nickname)
+    public void Nickname(string nickname, int id)
     {
-        Debug.Log(pView.ViewID);
-        pView.RPC("UpdateNicknameText", RpcTarget.AllBuffered, pView.ViewID, nickname);
+        pView.RPC("UpdateNicknameText", RpcTarget.AllBuffered, id, nickname);
 
     }
 

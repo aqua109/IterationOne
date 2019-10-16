@@ -79,6 +79,7 @@ public class SetNickname : MonoBehaviour
 
     public void Nickname()
     {
+        Debug.Log("Nickname()");
         var photonView = this.GetComponent<PhotonView>();
 
         photonView?.RequestOwnership();
@@ -94,7 +95,7 @@ public class SetNickname : MonoBehaviour
 
         GameObject nicknameLoader = GameObject.Find("NicknameLoader");
         VRPlayerManager playerManager = (VRPlayerManager)player.GetComponent(typeof(VRPlayerManager));
-        playerManager.Nickname(this.transform.Find("Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().text);
+        playerManager.Nickname(this.transform.Find("Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().text, int.Parse(playerID));
     }
 
 
