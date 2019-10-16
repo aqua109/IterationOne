@@ -2,6 +2,7 @@
 using Photon.Pun.Demo.PunBasics;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Newtonsoft.Json;
 using TMPro;
@@ -9,8 +10,7 @@ using Microsoft.MixedReality.Toolkit.Input;
 using UnityEngine;
 
 
-//public class SetNickname : MonoBehaviour, IMixedRealityFocusHandler
-public class SetNickname : MonoBehaviour
+public class SetNickname : MonoBehaviour, IPunInstantiateMagicCallback
 {
     private static double x_orig = -1.5;
     private static double y_orig = 3;
@@ -19,17 +19,21 @@ public class SetNickname : MonoBehaviour
     private static double x_off = 1.5;
     private static double y_off = 0.5;
 
+    public static List<string> usedNicknames; 
+
 
     public void loadNicknames()
     {
         GameObject nicknameLoader = GameObject.Find("NicknameLoader");
         NicknameConnector connector = (NicknameConnector)nicknameLoader.GetComponent(typeof(NicknameConnector));
-        
+
         int length = connector.nicknames.Length;
 
         double x = x_orig;
         double y = y_orig;
         double z = z_orig;
+
+        
 
         for (int i = 0; i < length; i++)
         {
@@ -77,53 +81,32 @@ public class SetNickname : MonoBehaviour
 
     public void Nickname()
     {
-        Debug.Log("Nickname()");
         var photonView = this.GetComponent<PhotonView>();
-
-        photonView?.RequestOwnership();
 
         Debug.Log(this.transform.Find("Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().text);
 
         var playerID = photonView.Owner.ToString().Substring(2, 1) + "001";
 
-        Debug.Log("***");
-        Debug.Log(photonView.Owner.ToString().Substring(2, 1));
-        Debug.Log(playerID);
-        Debug.Log(photonView.isMine);
-        Debug.Log("***");
-
         var player = PhotonView.Find(int.Parse(playerID)).gameObject;
-        //Debug.Log(player);
-
 
         GameObject nicknameLoader = GameObject.Find("NicknameLoader");
         VRPlayerManager playerManager = (VRPlayerManager)player.GetComponent(typeof(VRPlayerManager));
         playerManager.Nickname(this.transform.Find("Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().text, int.Parse(playerID));
+
+        usedNicknames.Add(this.transform.Find("Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().text);
+
+        foreach (Transform clone in GameObject.Find("Nicknames").transform)
+        {
+            Destroy(clone.gameObject);
+        }
+
     }
 
+    public void OnPhotonInstantiate(PhotonMessageInfo info)
+    {
+        var parent = GameObject.Find("Nicknames");
 
-    //public void OnFocusEnter(FocusEventData eventData)
-    //{
-    //    // ask the photonview for permission
-    //    var photonView = this.GetComponent<PhotonView>();
+        this.transform.SetParent(parent.transform, true);
+    }
 
-    //    photonView?.RequestOwnership();
-    //    Debug.Log(this.transform.Find("Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().text);
-
-    //    var playerID = photonView.ViewID.ToString()[0] + "001";
-
-    //    Debug.Log(playerID);
-
-    //    var player = PhotonView.Find(int.Parse(playerID)).gameObject;
-    //    //Debug.Log(player);
-
-
-    //    GameObject nicknameLoader = GameObject.Find("NicknameLoader");
-    //    VRPlayerManager playerManager = (VRPlayerManager)player.GetComponent(typeof(VRPlayerManager));
-    //    playerManager.Nickname(this.transform.Find("Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().text);
-    //}
-
-    //public void OnFocusExit(FocusEventData eventData)
-    //{
-    //}
 }
