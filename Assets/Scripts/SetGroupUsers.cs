@@ -60,20 +60,14 @@ public class SetGroupUsers : MonoBehaviour
         GameObject groupUserLoader = GameObject.Find("LoadGroupMembers");
         GroupMembersConnector connector = (GroupMembersConnector)groupUserLoader.GetComponent(typeof(GroupMembersConnector));
 
+        int length = connector.tablets.Length;
 
         var tablet = PhotonView.Find(id).gameObject;
 
-        setText(connector, tablet, i);
-    }
-
-    public void setText(GroupMembersConnector connector, GameObject tablet, int i)
-    {
-        int length = connector.tablets.Length;
         tablet.transform.Find("Canvas/first_name").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.tablets[i % length].first_name);
         tablet.transform.Find("Canvas/last_name").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.tablets[i % length].last_name);
         tablet.transform.Find("Canvas/group_number").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.tablets[i % length].group_number.ToString());
         tablet.transform.Find("Canvas/email").GetComponentInChildren<TextMeshProUGUI>().SetText(connector.tablets[i % length].email);
-
     }
 
 }
