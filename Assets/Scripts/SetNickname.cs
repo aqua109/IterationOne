@@ -24,9 +24,7 @@ public class SetNickname : MonoBehaviour
     {
         GameObject nicknameLoader = GameObject.Find("NicknameLoader");
         NicknameConnector connector = (NicknameConnector)nicknameLoader.GetComponent(typeof(NicknameConnector));
-
-        Debug.Log(connector.nicknames);
-
+        
         int length = connector.nicknames.Length;
 
         double x = x_orig;
@@ -85,9 +83,12 @@ public class SetNickname : MonoBehaviour
         photonView?.RequestOwnership();
         Debug.Log(this.transform.Find("Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().text);
 
-        var playerID = photonView.ViewID.ToString()[0] + "001";
+        var playerID = photonView.Owner.ToString().Substring(2, 1) + "001";
 
+        Debug.Log("***");
+        Debug.Log(photonView.Owner.ToString().Substring(2, 1));
         Debug.Log(playerID);
+        Debug.Log("***");
 
         var player = PhotonView.Find(int.Parse(playerID)).gameObject;
         //Debug.Log(player);
