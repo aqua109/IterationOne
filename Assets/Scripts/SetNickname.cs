@@ -81,6 +81,7 @@ public class SetNickname : MonoBehaviour
         var photonView = this.GetComponent<PhotonView>();
 
         photonView?.RequestOwnership();
+
         Debug.Log(this.transform.Find("Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().text);
 
         var playerID = photonView.Owner.ToString().Substring(2, 1) + "001";
@@ -88,6 +89,7 @@ public class SetNickname : MonoBehaviour
         Debug.Log("***");
         Debug.Log(photonView.Owner.ToString().Substring(2, 1));
         Debug.Log(playerID);
+        Debug.Log(photonView.isMine);
         Debug.Log("***");
 
         var player = PhotonView.Find(int.Parse(playerID)).gameObject;
