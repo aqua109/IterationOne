@@ -1838,8 +1838,9 @@ MonoBehaviour:
   RequiresFocus: 1
   Profiles:
   - Target: {fileID: 0}
-    Themes: []
-    HadDefaultTheme: 0
+    Themes:
+    - {fileID: 11400000, guid: 34927bf1a1259e141a45f1dedff98d7f, type: 2}
+    HadDefaultTheme: 1
   OnClick:
     m_PersistentCalls:
       m_Calls:
