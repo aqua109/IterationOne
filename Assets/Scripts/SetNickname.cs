@@ -94,7 +94,7 @@ public class SetNickname : MonoBehaviour, IPunInstantiateMagicCallback
 
         foreach (Transform clone in GameObject.Find("Nicknames").transform)
         {
-            Destroy(clone.gameObject);
+            PhotonNetwork.Destroy(clone.gameObject);
         }
 
     }
