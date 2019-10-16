@@ -19,8 +19,6 @@ public class SetNickname : MonoBehaviour, IPunInstantiateMagicCallback
     private static double x_off = 1.5;
     private static double y_off = 0.5;
 
-    public static List<string> usedNicknames; 
-
 
     public void loadNicknames()
     {
@@ -93,7 +91,6 @@ public class SetNickname : MonoBehaviour, IPunInstantiateMagicCallback
         VRPlayerManager playerManager = (VRPlayerManager)player.GetComponent(typeof(VRPlayerManager));
         playerManager.Nickname(this.transform.Find("Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().text, int.Parse(playerID));
 
-        usedNicknames.Add(this.transform.Find("Canvas/Title").GetComponentInChildren<TextMeshProUGUI>().text);
 
         foreach (Transform clone in GameObject.Find("Nicknames").transform)
         {
